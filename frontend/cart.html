@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="cart.css">
+    <link rel="stylesheet" href="frontend.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#cartItems {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    width: 80%;
+}
+
+.cart-item img {
+    margin-right: 15px;
+}
+
+.cart-item h3, .cart-item p {
+    margin: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="assests/logo.PNG" alt="logo"  width="350" height="70px" >
+            </div>
+            <nav>
+                <ul>
+                    
+                  <div class="search-container">
+                        <form class="searchbar">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                  </div>
+                      
+                  
+                    
+                    <li><a href="frontend.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="login.html">Account</a></li> 
+                    <li><a href="cart.html"><i class="fa-solid fa-cart-shopping"></i>Cart</a></li>
+                    
+                </ul>
+               
+            </nav>
+        </div>
+    <h1>Shopping Cart</h1>
+    <div id="cartItems"></div>
+    <h2>Total: $<span id="totalPrice">0.00</span></h2>
+    
+    <script>
+        // JavaScript code to load cart items from localStorage and display them
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartItemsContainer = document.getElementById("cartItems");
+            let totalPrice = 0;
+            
+            // Clear previous items
+            cartItemsContainer.innerHTML = "";
+            
+            // Add each product in the cart to the cartItemsContainer
+            cart.forEach(item => {
+                let itemDiv = document.createElement("div");
+                itemDiv.classList.add("cart-item");
+
+                // Item details
+                itemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" width="100" height="100">
+                    <h3>${item.name}</h3>
+                    <p>Price: $${item.price.toFixed(2)}</p>
+                `;
+
+                cartItemsContainer.appendChild(itemDiv);
+                totalPrice += item.price; // Update the total price
+            });
+
+            // Display the total price
+            document.getElementById("totalPrice").textContent = totalPrice.toFixed(2);
+        }
+
+        // Load the cart items when the page loads
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
